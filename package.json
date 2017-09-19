@@ -1,0 +1,52 @@
+{
+  "name": "combohtml",
+  "description": "Combo your HTML files, make scripts(.js) and stylesheets(.css) inline.",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=4"
+  },
+  "main": "dist/index.js",
+  "bin": {
+    "combohtml": "bin/combohtml.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mingelz/combohtml.git"
+  },
+  "author": {
+    "name": "mingelz",
+    "email": "mingelz@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "combo",
+    "mutiple",
+    "cli",
+    "inline",
+    "source",
+    "inline-source",
+    "inliner"
+  ],
+  "scripts": {
+    "clean": "rimraf dist/*",
+    "precompile": "npm run clean -s",
+    "compile": "buble --objectAssign -i src -o dist",
+    "prepublishOnly": "npm run compile"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "commander": "^2.11.0",
+    "csso": "^3.2.0",
+    "glob": "^7.1.2",
+    "request": "^2.81.0",
+    "uglify-js": "^3.1.1"
+  },
+  "devDependencies": {
+    "buble": "^0.15.2",
+    "rimraf": "^2.6.2"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ]
+}
