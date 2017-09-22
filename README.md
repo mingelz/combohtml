@@ -34,7 +34,7 @@ There are 3 directive: `inline`, `compress`, `remove`. Supports `<link>`, `<styl
 
 ## Install
 
-First, make sure your Node.js >= 4.
+First, make sure your Node.js `>= 4`.
 
 ```shell
 npm install combohtml
