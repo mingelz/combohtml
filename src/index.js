@@ -6,7 +6,8 @@ const processor = require('./processor')
 const getAbsoluteNames = (input, output, root) => {
   const source = path.resolve(root, input)
   let target = path.resolve(root, output)
-  if (fs.lstatSync(target).isDirectory()) {
+
+  if (path.dirname(target) === target) {
     const filename = path.basename(source)
     target = path.resolve(root, output, filename)
   }
