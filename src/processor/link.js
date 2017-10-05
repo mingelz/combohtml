@@ -1,15 +1,15 @@
 const fs = require('fs')
 const request = require('request')
-const uglifyjs = require('uglify-js')
-const { isRemoteUrl, getRealPath } = require('./utils')
+const csso = require('csso')
+const { isRemoteUrl, getRealPath } = require('./utils/misc')
 
 const compressor = (element, actions, content) => {
   const src = typeof content === 'undefined' ? element.html() : content
   const dist = actions.indexOf('compress') > -1
-    ? uglifyjs.minify(src).code
+    ? csso.minify(src).css
     : src
   // don't use `element.html(dist)`, the dist will be encode if it has `<` or `>`
-  element.replaceWith(`<script>${dist}</script>`)
+  element.replaceWith(`<style>${dist}</style>`)
 }
 
 const processor = (element, actions, options) => {
@@ -19,7 +19,12 @@ const processor = (element, actions, options) => {
     return Promise.resolve(true)
   }
 
-  const src = element.attr('src')
+  // if not a stylesheet
+  if (element.attr('rel') !== 'stylesheet') {
+    return Promise.resolve(true)
+  }
+
+  const src = element.attr('href')
   if (src && actions.indexOf('inline') > -1) {
     const url = getRealPath(src, options.source)
 

@@ -4,7 +4,7 @@ Combo your HTML files, make scripts(.js) and stylesheets(.css) inline.
 
 ## Quick start
 
-There are 3 directive: `inline`, `compress`, `remove`. Supports `<link>`, `<style>`, and `<script>` tags.
+There are 3 directives: `inline`, `compress`, `remove`, and supports `<link>`, `<style>`, and `<script>` tags.
 
 ```html
 <!-- inline remote file only -->
@@ -52,7 +52,7 @@ combohtml --input src/**/*.html --output dist
 
 ### Command line options
 
-```
+```shell
 -i, --input <input>    Input file(s)
 -o, --output <output>  Output directory or file name
 -r, --root [root]      Files root path,

@@ -1,6 +1,6 @@
 const path = require('path')
 
-const URL_REGEXP = /^(?:\s*)(https?:)?\/\//i
+const URL_REGEXP = /^\s*(https?:)?\/\//i
 
 module.exports = {
   // detect a remote path
