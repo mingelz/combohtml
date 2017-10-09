@@ -35,13 +35,13 @@ const combohtml = (options) => {
     process.exit(1)
   }
   else if (!files.length) {
-    console.error(`no file to process.`)
+    console.error('no file to process.')
     process.exit(1)
   }
 
   for (let i = 0; i < files.length; i++) {
     const { source, target } = files[i]
-    processOne({...config, source, target})
+    processOne({ ...config, source, target })
   }
 }
 

@@ -62,7 +62,7 @@ const resolveFiles = ({ input, output, root }) => {
       const inputSteps = input.split(path.sep)
       let magicalIndex = -1
       inputSteps.forEach((v, i) => {
-        if (/[\*\/\\]/.test(v) && magicalIndex < 0) {
+        if (/[*/\\]/.test(v) && magicalIndex < 0) {
           magicalIndex = i
         }
       })
@@ -73,11 +73,11 @@ const resolveFiles = ({ input, output, root }) => {
     }
 
     const files = glob.sync($input, { cwd: root })
-      .map(v => {
+      .map((v) => {
         const source = path.resolve(root, v)
         const relPath = path.relative(inputPrefix, v)
         const target = path.resolve(root, output, relPath)
-        return {source, target}
+        return { source, target }
       })
     return files
   }
