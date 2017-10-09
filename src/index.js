@@ -1,6 +1,6 @@
-const fs = require('fs')
-const processor = require('./processor')
-const getFiles = require('./utils/get-files')
+import fs from 'fs'
+import processor from './processor/index'
+import getFiles from './utils/get-files'
 
 const processOne = (options) => {
   const { source, target } = options
@@ -45,4 +45,4 @@ const combohtml = (options) => {
   }
 }
 
-module.exports = combohtml
+export default combohtml

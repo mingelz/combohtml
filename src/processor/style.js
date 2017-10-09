@@ -1,4 +1,4 @@
-const csso = require('csso')
+import csso from 'csso'
 
 const processor = (element, actions) => {
   // if need remove
@@ -17,4 +17,4 @@ const processor = (element, actions) => {
   return Promise.resolve(true)
 }
 
-module.exports = processor
+export default processor

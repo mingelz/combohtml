@@ -1,7 +1,7 @@
-const fs = require('fs')
-const request = require('request')
-const csso = require('csso')
-const { isRemoteUrl, getRealPath } = require('../utils/misc')
+import fs from 'fs'
+import request from 'request'
+import csso from 'csso'
+import { isRemoteUrl, getRealPath } from '../utils/misc'
 
 const compressor = (element, actions, content) => {
   const src = typeof content === 'undefined' ? element.html() : content
@@ -53,4 +53,4 @@ const processor = (element, actions, options) => {
   return Promise.resolve(true)
 }
 
-module.exports = processor
+export default processor

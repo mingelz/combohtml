@@ -5,7 +5,8 @@
   "engines": {
     "node": ">=4"
   },
-  "main": "dist/index.js",
+  "main": "dist/combohtml.js",
+  "module": "dist/combohtml.esm.js",
   "bin": {
     "combohtml": "bin/combohtml.js"
   },
@@ -29,10 +30,10 @@
   ],
   "scripts": {
     "clean": "rimraf dist/*",
-    "precompile": "npm run clean -s",
     "lint": "eslint --fix --report-unused-disable-directives src",
-    "compile": "buble --objectAssign -i src -o dist",
+    "compile": "rollup -c",
     "pretest": "npm run lint",
+    "precompile": "npm run clean -s",
     "prepublishOnly": "npm run compile"
   },
   "dependencies": {
@@ -44,10 +45,11 @@
     "uglify-js": "^3.1.1"
   },
   "devDependencies": {
-    "buble": "^0.15.2",
     "eslint": "^4.8.0",
     "eslint-config-mingelz": "^0.1.2",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "rollup": "^0.50.0",
+    "rollup-plugin-buble": "^0.16.0"
   },
   "files": [
     "bin",

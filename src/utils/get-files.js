@@ -1,6 +1,6 @@
-const fs = require('fs')
-const path = require('path')
-const glob = require('glob')
+import fs from 'fs'
+import path from 'path'
+import glob from 'glob'
 
 // Get source & target filename with options
 //
@@ -93,4 +93,4 @@ const resolveFiles = ({ input, output, root }) => {
   return [{ source: absInput, target }]
 }
 
-module.exports = resolveFiles
+export default resolveFiles

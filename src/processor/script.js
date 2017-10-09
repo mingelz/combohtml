@@ -1,7 +1,7 @@
-const fs = require('fs')
-const request = require('request')
-const uglifyjs = require('uglify-js')
-const { isRemoteUrl, getRealPath } = require('../utils/misc')
+import fs from 'fs'
+import request from 'request'
+import uglifyjs from 'uglify-js'
+import { isRemoteUrl, getRealPath } from '../utils/misc'
 
 const compressor = (element, actions, content) => {
   const src = typeof content === 'undefined' ? element.html() : content
@@ -48,4 +48,4 @@ const processor = (element, actions, options) => {
   return Promise.resolve(true)
 }
 
-module.exports = processor
+export default processor

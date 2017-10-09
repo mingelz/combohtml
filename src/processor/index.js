@@ -1,7 +1,7 @@
-const cheerio = require('cheerio')
-const scriptProcessor = require('./script')
-const linkProcessor = require('./link')
-const styleProcessor = require('./style')
+import cheerio from 'cheerio'
+import scriptProcessor from './script'
+import linkProcessor from './link'
+import styleProcessor from './style'
 
 const methods = {
   script: scriptProcessor,
@@ -36,4 +36,4 @@ const bridge = (html, options) => {
     })
 }
 
-module.exports = bridge
+export default bridge
