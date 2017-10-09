@@ -1,5 +1,7 @@
 # ComboHTML
 
+[![Version](https://img.shields.io/npm/v/combohtml.svg?style=flat)](https://www.npmjs.com/package/combohtml)
+
 Combo your HTML files, make scripts(.js) and stylesheets(.css) inline.
 
 ## Quick start
