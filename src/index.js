@@ -30,15 +30,18 @@ const combohtml = (options) => {
   }
 
   const files = getFiles(config)
-  if (files.length) {
-    for (let i = 0; i < files.length; i++) {
-      const { source, target } = files[i]
-      processOne({...config, source, target})
-    }
+  if (files.error) {
+    console.error(files.error)
+    process.exit(1)
   }
-  else {
+  else if (!files.length) {
     console.error(`no file to process.`)
     process.exit(1)
+  }
+
+  for (let i = 0; i < files.length; i++) {
+    const { source, target } = files[i]
+    processOne({...config, source, target})
   }
 }
 

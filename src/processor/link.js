@@ -1,7 +1,7 @@
 const fs = require('fs')
 const request = require('request')
 const csso = require('csso')
-const { isRemoteUrl, getRealPath } = require('./utils/misc')
+const { isRemoteUrl, getRealPath } = require('../utils/misc')
 
 const compressor = (element, actions, content) => {
   const src = typeof content === 'undefined' ? element.html() : content
