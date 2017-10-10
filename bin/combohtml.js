@@ -17,6 +17,6 @@ const options = {
   input: program.input,
   output: program.output,
   root: program.root || process.cwd(),
-  attr: program.attr,
+  attr: program.attr || 'data-combohtml',
 }
 combohtml(options)
