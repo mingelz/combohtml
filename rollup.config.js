@@ -2,7 +2,10 @@ import buble from 'rollup-plugin-buble'
 
 const config = {
   input: 'src/index.js',
-  output: [{ file: 'dist/combohtml.js', format: 'cjs' }, { file: 'dist/combohtml.esm.js', format: 'es' }],
+  output: [
+    { file: 'dist/combohtml.js', format: 'cjs' },
+    { file: 'dist/combohtml.esm.js', format: 'es' },
+  ],
   plugins: [
     buble({
       include: ['src/**'],
@@ -20,6 +23,7 @@ const config = {
     'request',
     'csso',
     'uglify-js',
+    'mkdirp',
   ],
 }
 

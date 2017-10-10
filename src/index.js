@@ -1,4 +1,6 @@
 import fs from 'fs'
+import path from 'path'
+import mkdirp from 'mkdirp'
 import processor from './processor/index'
 import getFiles from './utils/get-files'
 
@@ -7,6 +9,10 @@ const processOne = (options) => {
   const data = fs.readFileSync(source, 'utf8')
   processor(data, options)
     .then((result) => {
+      const pathname = path.dirname(target)
+      if (!fs.existsSync(pathname)) {
+        mkdirp.sync(pathname, '0755')
+      }
       fs.writeFileSync(target, result, 'utf8')
     })
     .catch((error) => {
