@@ -5,9 +5,19 @@ import { isRemoteUrl, getRealPath } from '../utils/misc'
 
 const compressor = (element, actions, content) => {
   const src = typeof content === 'undefined' ? element.html() : content
-  const dist = actions.indexOf('compress') > -1
-    ? uglifyjs.minify(src).code
-    : src
+
+  let dist = src
+  if (actions.indexOf('compress') > -1) {
+    let { error, code } = uglifyjs.minify(src)
+    if (error) {
+      console.error(error)
+      process.exit(1)
+    }
+    else {
+      dist = code
+    }
+  }
+
   // don't use `element.html(dist)`, the dist will be encode if it has `<` or `>`
   element.replaceWith(`<script>${dist}</script>`)
 }
