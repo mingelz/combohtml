@@ -6,7 +6,7 @@ Combo your HTML files, make scripts(.js) and stylesheets(.css) inline.
 
 ## Quick start
 
-There are 3 directives: `inline`, `compress`, `remove`, and supports `<link>`, `<style>`, and `<script>` tags.
+There are 3 directives: `inline`, `compress`, `remove`, and support `<link>`, `<style>`, and `<script>` tags.
 
 ```html
 <!-- inline remote file only -->
@@ -14,6 +14,9 @@ There are 3 directives: `inline`, `compress`, `remove`, and supports `<link>`, `
 
 <!-- inline and compress remote file -->
 <script data-combohtml="inline,compress" src="//example.com/index.js"></script>
+
+<!-- inline local file -->
+<script data-combohtml="inline" src="./index.js"></script>
 
 <!-- compress inline code -->
 <style data-combohtml="compress">
@@ -49,7 +52,7 @@ npm install combohtml
 combohtml -i index.html -o dist.html
 
 # process mutiple files
-combohtml --input src/**/*.html --output dist
+combohtml --input 'src/**/*.html' --output dist
 ```
 
 ### Command line options
