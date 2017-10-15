@@ -8,7 +8,7 @@ const compressor = (element, actions, content) => {
 
   let dist = src
   if (actions.indexOf('compress') > -1) {
-    let { error, code } = uglifyjs.minify(src)
+    const { error, code } = uglifyjs.minify(src)
     if (error) {
       console.error(error)
       process.exit(1)

@@ -6,17 +6,17 @@ Combo your HTML files, make scripts(.js) and stylesheets(.css) inline.
 
 ## Quick start
 
-There are 3 directives: `inline`, `compress`, `remove`, and support `<link>`, `<style>`, and `<script>` tags.
+There are 3 directives: `inline`, `compress`, `remove`, and support all HTML tags.
+
+* if the tag is `<link>`, `<style>`, or `<script>`, it's accepted all 3 directives,
+* otherwise it's accepted `compress` and `remove`
 
 ```html
 <!-- inline remote file only -->
 <link data-combohtml="inline" rel="stylesheet" href="//example.com/index.css">
 
-<!-- inline and compress remote file -->
-<script data-combohtml="inline,compress" src="//example.com/index.js"></script>
-
-<!-- inline local file -->
-<script data-combohtml="inline" src="./index.js"></script>
+<!-- inline and compress local file -->
+<script data-combohtml="inline,compress" src="./index.js"></script>
 
 <!-- compress inline code -->
 <style data-combohtml="compress">
@@ -35,6 +35,11 @@ There are 3 directives: `inline`, `compress`, `remove`, and support `<link>`, `<
 <script data-combohtml="remove">
   mock = "the mock data in development environment"
 </script>
+
+<!-- compress html, maybe you'd like to add the directive to `<html>` or `<body>` tag -->
+<div data-combohtml="compress">
+  whatever...
+</div>
 ```
 
 ## Install

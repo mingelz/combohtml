@@ -23,6 +23,7 @@ const config = {
     'request',
     'csso',
     'uglify-js',
+    'html-minifier',
     'mkdirp',
   ],
 }
