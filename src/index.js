@@ -7,7 +7,7 @@ import getFiles from './utils/get-files'
 const processOne = (options) => {
   const { source, target } = options
   const data = fs.readFileSync(source, 'utf8')
-  processor(data, options)
+  return processor(data, options)
     .then((result) => {
       const pathname = path.dirname(target)
       if (!fs.existsSync(pathname)) {
@@ -45,10 +45,8 @@ const combohtml = (options) => {
     process.exit(1)
   }
 
-  for (let i = 0; i < files.length; i++) {
-    const { source, target } = files[i]
-    processOne({ ...config, source, target })
-  }
+  const orders = files.map(file => processOne({ ...config, ...file }))
+  return Promise.all(orders)
 }
 
 export default combohtml
