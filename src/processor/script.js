@@ -1,61 +1,54 @@
 import fs from 'fs'
 import request from 'request'
 import uglifyjs from 'uglify-js'
-import { isRemoteUrl, getRealPath } from '../utils/misc'
+import { fatal, isRemoteUrl, getRealPath } from '../utils'
 
-const compressor = (element, actions, content) => {
-  const src = typeof content === 'undefined' ? element.html() : content
-
-  let dist = src
-  if (actions.indexOf('compress') > -1) {
-    const { error, code } = uglifyjs.minify(src)
+const compressor = (element) => {
+  const source = element.html()
+  if (source) {
+    const { error, code } = uglifyjs.minify(source)
     if (error) {
-      console.error(error)
-      process.exit(1)
+      fatal(error)
     }
     else {
-      dist = code
+      // don't use `element.html(dist)`, the inner code will be encode if it has `<` or `>`
+      element.replaceWith(`<script>${code}</script>`)
     }
   }
 
-  // don't use `element.html(dist)`, the dist will be encode if it has `<` or `>`
-  element.replaceWith(`<script>${dist}</script>`)
+  return true
 }
 
-const processor = (element, actions, options) => {
-  // if need remove
-  if (actions.indexOf('remove') > -1) {
-    element.remove()
-    return Promise.resolve(true)
-  }
-
-  const src = element.attr('src')
-  if (src && actions.indexOf('inline') > -1) {
-    const url = getRealPath(src, options.source)
-
-    if (isRemoteUrl(url)) {
-      return new Promise((resolve, reject) => {
-        request(url, (error, response, body) => {
-          if (!error && response.statusCode === 200) {
-            compressor(element, actions, body)
-            resolve(true)
-          }
-          else {
-            console.error(`Download ${url} failed.`)
-            reject(error)
-          }
+const processor = (element, actions, options) => Promise.resolve()
+  .then(() => {
+    const src = element.attr('src')
+    if (src && actions.indexOf('inline') > -1) {
+      const url = getRealPath(src, options.root)
+      if (isRemoteUrl(url)) {
+        return new Promise((resolve, reject) => {
+          request(url, (error, response, body) => {
+            if (!error && response.statusCode === 200) {
+              element.replaceWith(`<script>${body}</script>`)
+              resolve(true)
+            }
+            else {
+              reject(error)
+            }
+          })
         })
-      })
+      }
+
+      const source = fs.readFileSync(url, 'utf8')
+      element.replaceWith(`<script>${source}</script>`)
     }
 
-    const content = fs.readFileSync(url, 'utf8')
-    compressor(element, actions, content)
-  }
-  else if (actions.indexOf('compress') > -1) {
-    compressor(element, actions)
-  }
-
-  return Promise.resolve(true)
-}
+    return true
+  })
+  .then(() => {
+    if (actions.indexOf('compress') > -1) {
+      return compressor(element)
+    }
+    return true
+  })
 
 export default processor

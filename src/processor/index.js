@@ -10,9 +10,9 @@ const methods = {
   style: styleProcessor,
 }
 
-const bridge = (html, options) => {
+const bridge = (code, options) => {
   const { attr } = options
-  const $ = cheerio.load(html, { decodeEntities: false })
+  const $ = cheerio.load(code, { decodeEntities: false })
   const elements = $(`[${attr}]`)
 
   const assetElements = []
@@ -25,8 +25,12 @@ const bridge = (html, options) => {
 
     element.removeAttr(attr)
 
+    // if has remove
+    if (actions.indexOf('remove') > -1) {
+      element.remove()
+    }
     // hoist asset tags
-    if (method) {
+    else if (method) {
       assetElements.push({ element, method, actions })
     }
     else {
@@ -40,9 +44,6 @@ const bridge = (html, options) => {
 
   return Promise.all(queue)
     .then(() => $.html())
-    .catch((error) => {
-      console.error(error)
-    })
 }
 
 export default bridge

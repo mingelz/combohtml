@@ -2,52 +2,74 @@ import fs from 'fs'
 import path from 'path'
 import mkdirp from 'mkdirp'
 import processor from './processor/index'
-import getFiles from './utils/get-files'
+import { fatal } from './utils'
 
-const processOne = (options) => {
-  const { source, target } = options
-  const data = fs.readFileSync(source, 'utf8')
-  processor(data, options)
+const combine = (code, options) => {
+  processor(code, options)
     .then((result) => {
-      const pathname = path.dirname(target)
-      if (!fs.existsSync(pathname)) {
-        mkdirp.sync(pathname, '0755')
+      const { output } = options
+      if (output) {
+        const pathname = path.dirname(output)
+        if (!fs.existsSync(pathname)) {
+          mkdirp.sync(pathname, '0755')
+        }
+        fs.writeFileSync(output, result, 'utf8')
       }
-      fs.writeFileSync(target, result, 'utf8')
+      else {
+        process.stdout.write(result)
+      }
     })
-    .catch((error) => {
-      // TODO
-      console.error('error', error)
-    })
+    .catch(fatal)
 }
 
+/**
+ * @param {Object}      options
+ * @param {string}      options.input    input file path or source code
+ * @param {string}      [options.output] output file path, (if not specified STDOUT will be used for output)
+ * @param {string}      [options.root]   relative path's root, default to file directory or command current directory
+ * @param {string}      [options.attr]   specified attribute, default to `data-combohtml`
+ */
 const combohtml = (options) => {
+  // merge default options
   const config = {
     attr: 'data-combohtml',
-    root: process.cwd(),
     ...options,
   }
-  const { input, output } = config
 
-  if (!input || !output) {
-    const key = input ? 'output' : 'input'
-    console.error(`${key} is required!`)
-    process.exit(1)
+  const { input, root } = config
+  if (!input) {
+    fatal('input (a file path or source code) is required!')
   }
 
-  const files = getFiles(config)
-  if (files.error) {
-    console.error(files.error)
-    process.exit(1)
+  try {
+    const stats = fs.statSync(input)
+    if (stats.isFile()) {
+      const code = fs.readFileSync(input, 'utf8')
+      if (!root) {
+        config.root = path.dirname(input)
+      }
+      combine(code, config)
+    }
+    else {
+      fatal(`${input} is not a file path`)
+    }
   }
-  else if (!files.length) {
-    console.error('no file to process.')
-    process.exit(1)
-  }
-
-  for (let i = 0; i < files.length; i++) {
-    const { source, target } = files[i]
-    processOne({ ...config, source, target })
+  catch (e1) {
+    // not a path
+    if (e1.code === 'ENOENT') {
+      try {
+        if (!root) {
+          config.root = __dirname
+        }
+        combine(input, config)
+      }
+      catch (e2) {
+        fatal(`${input} is not a file path or source code`)
+      }
+    }
+    else {
+      fatal(e1)
+    }
   }
 }
 

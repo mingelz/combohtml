@@ -1,28 +1,27 @@
 import htmlminifier from 'html-minifier'
 
-const processor = (element, actions, options, $) => {
-  // if need remove
-  if (actions.indexOf('remove') > -1) {
-    element.remove()
-    return Promise.resolve(true)
-  }
-
-  if (actions.indexOf('compress') > -1) {
-    const src = $.html(element)
-    const dist = htmlminifier.minify(src, {
-      collapseInlineTagWhitespace: false,
-      collapseWhitespace: true,
-      removeComments: true,
-      removeEmptyAttributes: true,
-      removeRedundantAttributes: true,
-      removeScriptTypeAttributes: true,
-      removeStyleLinkTypeAttributes: true,
-      useShortDoctype: true,
-    })
-    element.replaceWith(dist)
-  }
-
-  return Promise.resolve(true)
+const compressor = (element, $) => {
+  const source = $.html(element)
+  const dist = htmlminifier.minify(source, {
+    collapseInlineTagWhitespace: false,
+    collapseWhitespace: true,
+    removeComments: true,
+    removeEmptyAttributes: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    useShortDoctype: true,
+  })
+  element.replaceWith(dist)
+  return true
 }
+
+const processor = (element, actions, options, $) => Promise.resolve()
+  .then(() => {
+    if (actions.indexOf('compress') > -1) {
+      return compressor(element, $)
+    }
+    return true
+  })
 
 export default processor
