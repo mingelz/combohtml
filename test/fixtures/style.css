@@ -1,0 +1,57 @@
+module.exports = {
+  'no-attr': [
+    `<style>
+      div {
+        color: #ffffff;
+      }
+      div {
+        color: green;
+      }
+    </style>`,
+    '',
+  ],
+  'no-attr': [
+    `<style>
+      div {
+        color: #ffffff;
+      }
+      div {
+        color: green;
+      }
+    </style>`,
+    '',
+  ],
+  'no-attr': [
+    `<style>
+      div {
+        color: #ffffff;
+      }
+      div {
+        color: green;
+      }
+    </style>`,
+    '',
+  ],
+  'no-attr': [
+    `<style>
+      div {
+        color: #ffffff;
+      }
+      div {
+        color: green;
+      }
+    </style>`,
+    '',
+  ],
+  'no-attr': [
+    `<style>
+      div {
+        color: #ffffff;
+      }
+      div {
+        color: green;
+      }
+    </style>`,
+    '',
+  ],
+}

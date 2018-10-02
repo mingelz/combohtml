@@ -1,20 +1,32 @@
-import csso from 'csso'
+import CleanCSS from 'clean-css'
+import { fatal } from '../utils'
 
-const processor = (element, actions) => {
-  // if need remove
-  if (actions.indexOf('remove') > -1) {
-    element.remove()
-    return Promise.resolve(true)
+const cleanCSS = new CleanCSS({
+  inline: ['local'],
+})
+
+const compressor = (element) => {
+  const source = element.html()
+  if (source) {
+    const { errors, styles } = cleanCSS.minify(source)
+    if (errors) {
+      fatal(errors)
+    }
+    else {
+      // don't use `element.html(dist)`, the dist will be encode if it has `<` or `>`
+      element.replaceWith(`<style>${styles}</style>`)
+    }
   }
 
-  if (actions.indexOf('compress') > -1) {
-    // XXX: only `.html()` can get style textContent, but not `.text()`
-    const src = element.html()
-    const dist = csso.minify(src).css
-    element.replaceWith(`<style>${dist}</style>`)
-  }
-
-  return Promise.resolve(true)
+  return true
 }
+
+const processor = (element, actions) => Promise.resolve()
+  .then(() => {
+    if (actions.indexOf('compress') > -1) {
+      return compressor(element)
+    }
+    return true
+  })
 
 export default processor
